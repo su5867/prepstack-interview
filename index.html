@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrepStack — Interview Prep Tracker</title>
+<meta name="description" content="PrepStack is a mobile-style interview prep tracker for software engineers — DSA topics, company-wise questions, system design, behavioral prep, mock interviews, and progress tracking.">
+<meta name="theme-color" content="#0E1F3D">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="PrepStack — Interview Prep Tracker">
+<meta property="og:description" content="Track DSA practice, system design, behavioral prep, mock interviews, and progress — all in one place.">
+<meta property="og:image" content="assets/preview.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PrepStack — Interview Prep Tracker">
+<meta name="twitter:description" content="Track DSA practice, system design, behavioral prep, mock interviews, and progress — all in one place.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="page-bg">
+  <div class="desktop-panel">
+    <div class="eyebrow">Interview Prep</div>
+    <h1>PrepStack</h1>
+    <p>Track DSA practice, system design, behavioral prep, mock interviews, and progress — all in one place. Built by Supriya Dwivedi.</p>
+    <ul>
+      <li>DSA topics &amp; company-wise questions</li>
+      <li>System design &amp; behavioral prep</li>
+      <li>Mock interviews &amp; a weekly study plan</li>
+      <li>Progress tracking with backups</li>
+    </ul>
+  </div>
+  <div class="phone-frame">
+    <div class="screen">
+      <div class="notch"></div>
+
+      <!-- HEADER -->
+      <div class="app-header">
+        <div class="header-top">
+          <div class="profile-block" id="open-profile">
+            <div class="avatar">SD</div>
+            <div>
+              <div class="profile-name">Supriya Dwivedi</div>
+              <div class="profile-sub">Full-Stack Developer · Prepping for interviews</div>
+            </div>
+          </div>
+          <div class="header-icons">
+            <button class="icon-btn" id="qr-btn" title="Share progress card"></button>
+            <button class="icon-btn" id="bell-btn" title="Reminders">
+              <span class="badge" id="bell-badge">3</span>
+            </button>
+          </div>
+        </div>
+        <div class="quick-actions">
+          <button class="quick-action" data-view="progress">
+            <span class="qa-icon"></span> Progress
+          </button>
+          <button class="quick-action" id="open-profile-2">
+            <span class="qa-icon"></span> My Profile
+          </button>
+        </div>
+      </div>
+
+      <!-- SEARCH -->
+      <div class="search-wrap">
+        <div class="search-bar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input id="module-search" placeholder="Search modules...">
+        </div>
+      </div>
+
+      <!-- SCROLL AREA -->
+      <div class="scroll-area" id="scroll-area"></div>
+
+      <!-- BOTTOM NAV -->
+      <div class="bottom-nav" id="bottom-nav">
+        <button class="nav-btn active" data-view="home"></button>
+        <button class="nav-btn" data-view="progress"></button>
+        <button class="nav-btn" data-view="saved"></button>
+        <button class="nav-btn" data-view="alerts"></button>
+      </div>
+
+      <!-- MODAL -->
+      <div class="modal-backdrop" id="modal">
+        <div class="sheet" id="sheet-content"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/logic.js"></script>
+<script src="js/data.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

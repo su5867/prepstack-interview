@@ -1,0 +1,16 @@
+{
+  "name": "prepstack-interview-tracker",
+  "version": "1.0.0",
+  "description": "A mobile-style interview prep tracker for software engineers — DSA topics, company-wise questions, system design, behavioral prep, mock interviews, and progress tracking.",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.js && node tests/smoke.node.js",
+    "start": "python3 -m http.server 8000"
+  },
+  "license": "MIT",
+  "author": "Supriya Dwivedi",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/<your-username>/<your-repo>.git"
+  }
+}

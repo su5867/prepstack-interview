@@ -2,9 +2,6 @@
 
 ![PrepStack preview](assets/preview.svg)
 
-[![CI](https://github.com/<your-username>/<your-repo>/actions/workflows/ci.yml/badge.svg)](https://github.com/<your-username>/<your-repo>/actions/workflows/ci.yml)
-![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
-
 A mobile-style interview prep tracker for software engineers. Track DSA
 practice by topic and by company, review system design and behavioral
 questions, log mock interviews, keep a study plan, save notes and

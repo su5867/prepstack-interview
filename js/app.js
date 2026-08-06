@@ -156,7 +156,22 @@ let currentQuestionListOpts = null;
 
 function renderHome(){
   const q = searchQuery.trim().toLowerCase();
-  let html = "";
+  const solvedCount = questions.filter(x => x.status === 'solved').length;
+  const pending = questions.filter(x => x.status !== 'solved');
+  const nextQuestion = pending.find(x => x.status === 'attempted') || pending[0];
+  const completion = questions.length ? Math.round((solvedCount / questions.length) * 100) : 0;
+  let html = !q ? `
+    <section class="home-overview">
+      <div class="overview-copy">
+        <div class="overview-eyebrow">TODAY'S MOMENTUM</div>
+        <h2>${solvedCount} questions solved</h2>
+        <p>${nextQuestion ? `${pending.length} questions are waiting for you.` : 'You have completed every question—great work!'}</p>
+      </div>
+      <div class="progress-orbit" style="--progress:${completion}%"><span>${completion}<small>%</small></span></div>
+    </section>
+    <section class="action-panel">
+      ${nextQuestion ? `<button class="continue-card featured-challenge" id="continue-question" data-question="${nextQuestion.id}"><span class="continue-label">NEXT QUESTION TO SOLVE</span><strong>${nextQuestion.title}</strong><span>${nextQuestion.difficulty} · ${nextQuestion.status === 'attempted' ? 'Continue where you left off' : 'Tap to start solving'} <b>→</b></span></button>` : `<button class="primary-action" id="browse-questions"><span class="action-plus">✓</span><span><strong>Review your question bank</strong><small>Every practice question is complete</small></span></button>`}
+    </section>` : "";
 
   const favItems = ALL_ITEMS.filter(i => favorites.includes(i.id) && (!q || i.label.toLowerCase().includes(q)));
   if(!q || favItems.length){
@@ -195,6 +210,10 @@ function tileHTML(item){
 }
 
 function bindHomeEvents(){
+  const browseButton = document.getElementById('browse-questions');
+  if(browseButton) browseButton.addEventListener('click', () => openModule('dsa-topics'));
+  const continueButton = document.getElementById('continue-question');
+  if(continueButton) continueButton.addEventListener('click', () => openQuestionSheet(continueButton.dataset.question));
   document.querySelectorAll('.tile').forEach(t => {
     t.addEventListener('click', (e) => {
       if(e.target.closest('.star-toggle')) return;
@@ -523,19 +542,26 @@ function openAddQuestionForm(presetTopicId){
 function openQuestionSheet(id){
   const x = questions.find(q => q.id === id);
   const t = topics.find(tp => tp.id === x.topicId);
+  const practiceUrl = `https://leetcode.com/problemset/?search=${encodeURIComponent(x.title)}`;
   document.getElementById('sheet-content').innerHTML = `
     <div class="sheet-handle"></div>
     <div class="sheet-title">${x.title}</div>
+    <div class="practice-brief"><span>YOUR TASK</span><p>Work through this ${x.difficulty.toLowerCase()} ${t ? t.name.toLowerCase() : 'coding'} problem. Explain the approach, then write and test your solution.</p></div>
     <div class="sheet-sub">${t?t.name:''} · ${x.difficulty}</div>
     <div class="list-item" style="padding:12px 0;"><div class="li-name">Asked at</div><span class="pill pill-neutral">${x.companies.length ? x.companies.join(', ') : '—'}</span></div>
     <div class="list-item" style="padding:12px 0;"><div class="li-name">Status</div>${statusPill(x.status)}</div>
     <div class="list-item" style="padding:12px 0; border-bottom:none;"><div class="li-name">Bookmarked</div><span class="pill ${x.bookmarked?'pill-gold':'pill-neutral'}">${x.bookmarked?'Yes':'No'}</span></div>
-    <div style="display:flex; gap:10px; margin-top:6px;">
+    <button class="btn-primary" id="open-practice-btn" style="margin-top:12px;">Open question to solve ↗</button>
+    <div style="display:flex; gap:10px; margin-top:10px;">
       <button class="toggle-mini" id="toggle-solved-btn" style="flex:1;">${x.status==='solved' ? 'Mark as To Do' : 'Mark as Solved'}</button>
       <button class="toggle-mini" id="toggle-bookmark-btn" style="flex:1;">${x.bookmarked ? 'Remove Bookmark' : 'Bookmark'}</button>
     </div>
   `;
   document.getElementById('modal').classList.add('active');
+  document.getElementById('open-practice-btn').addEventListener('click', () => {
+    window.open(practiceUrl, '_blank', 'noopener');
+    if(x.status === 'todo'){ x.status = 'attempted'; saveState(); }
+  });
   document.getElementById('toggle-solved-btn').addEventListener('click', () => {
     x.status = x.status === 'solved' ? 'todo' : 'solved';
     openQuestionSheet(id);

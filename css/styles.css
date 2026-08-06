@@ -169,6 +169,26 @@
   }
   .scroll-area::-webkit-scrollbar{ width:0; }
 
+  /* ---------------- HOME OVERVIEW ---------------- */
+  .home-overview{
+    margin:0 20px 14px; padding:18px; border-radius:20px; color:#fff;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    background:linear-gradient(125deg, #183b70, #245b8e); box-shadow:0 12px 28px rgba(20,56,105,.17);
+  }
+  .overview-copy{ min-width:0; }.overview-eyebrow,.continue-label{ color:#a9d9ff; font-size:9.5px; font-weight:800; letter-spacing:1px; }
+  .overview-copy h2{ margin:5px 0 4px; font:600 17px/1.25 'Poppins',sans-serif; }.overview-copy p{ color:rgba(255,255,255,.72); font-size:11px; line-height:1.45; }
+  .progress-orbit{ --progress:0%; width:67px; height:67px; flex:0 0 67px; padding:5px; display:grid; place-items:center; border-radius:50%; background:conic-gradient(#f4bd52 var(--progress), rgba(255,255,255,.2) 0); }
+  .progress-orbit::before{ content:''; position:absolute; }.progress-orbit span{ width:100%; height:100%; display:grid; place-items:center; border-radius:50%; background:#204b7e; font:700 15px 'Poppins',sans-serif; }.progress-orbit small{ margin-left:1px; font-size:9px; }
+  .action-panel{ margin:0 20px 21px; display:grid; grid-template-columns:1fr; gap:10px; }
+  .primary-action,.continue-card{ width:100%; border:0; text-align:left; cursor:pointer; font-family:'Inter',sans-serif; }
+  .primary-action{ padding:14px; border-radius:15px; display:flex; align-items:center; gap:11px; color:#fff; background:var(--navy-900); box-shadow:0 8px 18px rgba(14,31,61,.16); }
+  .action-plus{ width:31px; height:31px; display:grid; place-items:center; border-radius:10px; color:var(--navy-900); background:var(--gold); font-size:23px; font-weight:400; }.primary-action strong,.primary-action small{ display:block; }.primary-action strong{ font-size:13px; }.primary-action small{ margin-top:2px; color:rgba(255,255,255,.6); font-size:10.5px; }
+  .continue-card{ padding:13px 14px; border:1px solid var(--ice-line); border-radius:15px; color:var(--ink); background:var(--surface); box-shadow:0 4px 12px rgba(15,31,61,.05); }.continue-card strong{ display:block; overflow:hidden; margin:5px 0 4px; font-size:12.5px; text-overflow:ellipsis; white-space:nowrap; }.continue-card > span:last-child{ color:var(--muted); font-size:10.5px; }.continue-card b{ float:right; color:var(--navy-700); font-size:16px; line-height:.6; }
+  [data-theme="dark"] .progress-orbit span{ background:#204b7e; }
+
+  .featured-challenge{ padding:16px; border-color:#C9DDF5; background:linear-gradient(145deg, #fff, #F2F7FF); }
+  .featured-challenge strong{ font-size:14px; margin-top:7px; }
+
   .section{ margin-bottom:18px; padding:0 20px; }
   .section-label{
     background:var(--ice);
@@ -314,6 +334,9 @@
   .sheet-handle{ width:36px; height:4px; background:var(--ice-line); border-radius:3px; margin:0 auto 16px; }
   .sheet-title{ font-family:'Poppins',sans-serif; font-weight:600; font-size:16px; margin-bottom:4px; }
   .sheet-sub{ font-size:12px; color:var(--muted); margin-bottom:16px; }
+  .practice-brief{ margin:13px 0 5px; padding:12px 13px; border-radius:12px; background:var(--ice); color:var(--ink); }
+  .practice-brief span{ color:var(--navy-700); font-size:9.5px; font-weight:800; letter-spacing:1px; }
+  .practice-brief p{ margin-top:5px; font-size:11.5px; line-height:1.5; }
 
   .id-mini{
     background:linear-gradient(160deg, var(--navy-900), var(--navy-700));

@@ -23,7 +23,7 @@ function buildPayload(){
     questionState: Object.fromEntries(questions.map(q => [q.id, { status:q.status, bookmarked:q.bookmarked }])),
     customQuestions: questions.filter(q => q.custom),
     notes, reminders, favorites, streak, dailyChallengeDone, notifCount, theme,
-    moduleItems, communityList,
+    moduleItems, communityList, currentUser,
   };
 }
 
@@ -51,6 +51,9 @@ function applyPayload(saved){
   if(Array.isArray(saved.communityList)){
     communityList.length = 0;
     communityList.push(...saved.communityList);
+  }
+  if(saved.currentUser && typeof saved.currentUser.name === 'string'){
+    currentUser = { ...currentUser, ...saved.currentUser };
   }
 }
 

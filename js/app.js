@@ -63,6 +63,91 @@ function applyTheme(){
 }
 
 /* ======================================================
+   LOCAL ACCOUNT EXPERIENCE
+   This static app has no server, so sign-in is deliberately local-first:
+   a session and profile are kept only in this browser. A real deployment
+   can replace these helpers with an API without changing the app screens.
+====================================================== */
+const ACCOUNT_KEY = 'prepstack-account-v1';
+const SESSION_KEY = 'prepstack-session-v1';
+let authMode = 'login';
+
+function initials(name){
+  return (name || 'PS').split(/\s+/).filter(Boolean).slice(0,2).map(p => p[0]).join('').toUpperCase();
+}
+function updateUserChrome(){
+  document.querySelectorAll('.avatar').forEach(el => { if(!el.closest('.auth-card')) el.textContent = initials(currentUser.name); });
+  const headerName = document.querySelector('.profile-name');
+  const headerSub = document.querySelector('.profile-sub');
+  if(headerName) headerName.textContent = currentUser.name;
+  if(headerSub) headerSub.textContent = `${currentUser.role} · ${currentUser.code}`;
+}
+function localGet(key){
+  try { return window.localStorage ? window.localStorage.getItem(key) : null; } catch(e) { return null; }
+}
+function localSet(key, value){
+  try { if(window.localStorage) window.localStorage.setItem(key, value); } catch(e) { /* private browsing may block persistence */ }
+}
+function showAuth(){
+  const screen = document.getElementById('auth-screen');
+  if(screen) screen.classList.remove('is-hidden');
+}
+function completeSignIn(user){
+  currentUser = { ...currentUser, ...user };
+  localSet(SESSION_KEY, 'active');
+  updateUserChrome();
+  saveState();
+  const screen = document.getElementById('auth-screen');
+  if(screen) screen.classList.add('is-hidden');
+}
+function setAuthMode(mode){
+  authMode = mode;
+  const screen = document.getElementById('auth-screen');
+  const button = document.getElementById('auth-switch-btn');
+  const copy = document.getElementById('auth-switch-copy');
+  const submit = document.getElementById('auth-submit');
+  const password = document.getElementById('auth-password');
+  if(!screen) return;
+  screen.dataset.mode = mode;
+  button.textContent = mode === 'login' ? 'Create an account' : 'I already have an account';
+  copy.textContent = mode === 'login' ? 'New here?' : 'Already have an account?';
+  if(submit) submit.innerHTML = mode === 'login' ? 'Sign in to PrepStack <span>→</span>' : 'Create my workspace <span>→</span>';
+  password.autocomplete = mode === 'login' ? 'current-password' : 'new-password';
+  document.getElementById('auth-error').textContent = '';
+}
+function initAuth(){
+  const screen = document.getElementById('auth-screen');
+  if(!screen) return;
+  setAuthMode('login');
+  if(localGet(SESSION_KEY) === 'active') screen.classList.add('is-hidden');
+  document.getElementById('auth-switch-btn').addEventListener('click', () => setAuthMode(authMode === 'login' ? 'signup' : 'login'));
+  document.getElementById('auth-form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const name = document.getElementById('auth-name').value.trim();
+    const email = document.getElementById('auth-email').value.trim().toLowerCase();
+    const password = document.getElementById('auth-password').value;
+    const error = document.getElementById('auth-error');
+    if(!email || password.length < 6){ error.textContent = 'Enter a valid email and a password with at least 6 characters.'; return; }
+    const saved = (() => { try { return JSON.parse(localGet(ACCOUNT_KEY) || 'null'); } catch(e) { return null; } })();
+    if(authMode === 'signup'){
+      if(!name){ error.textContent = 'Please tell us what to call you.'; return; }
+      const account = { name, email, password, role:'Interview candidate', code:'Building my next opportunity' };
+      localSet(ACCOUNT_KEY, JSON.stringify(account));
+      completeSignIn(account);
+    } else {
+      if(!saved || saved.email !== email || saved.password !== password){ error.textContent = 'We could not find that account on this device. Create an account to get started.'; return; }
+      completeSignIn(saved);
+    }
+  });
+}
+function signOut(){
+  try { window.localStorage.removeItem(SESSION_KEY); } catch(e) { /* no persistent storage */ }
+  document.getElementById('auth-form').reset();
+  setAuthMode('login');
+  showAuth();
+}
+
+/* ======================================================
    MODULE DEFINITIONS + HOME RENDER
 ====================================================== */
 let activeView = "home";
@@ -224,7 +309,7 @@ function renderProfileView(){
     ${subheader('My Profile')}
     <div style="padding:0 20px;">
       <div class="id-mini">
-        <div class="avatar">SD</div>
+        <div class="avatar">${initials(currentUser.name)}</div>
         <div>
           <div class="name">${currentUser.name}</div>
           <div class="meta">${currentUser.role} · ${currentUser.code}</div>
@@ -252,6 +337,9 @@ function renderProfileView(){
       </div>
       ${storageAvailable ? '' : `<div class="li-meta" style="margin-top:10px;">Auto-save isn't available in this environment — use Export to save your progress and Import to restore it.</div>`}
     </div>
+    <div class="section" style="padding-top:0;">
+      <button class="toggle-mini logout-btn" id="sign-out-btn" style="width:100%; padding:12px;">Sign out of this device</button>
+    </div>
   `;
   document.getElementById('theme-toggle-btn').addEventListener('click', () => {
     theme = theme === 'dark' ? 'light' : 'dark';
@@ -263,8 +351,9 @@ function renderProfileView(){
   document.getElementById('import-btn').addEventListener('click', () => document.getElementById('import-file').click());
   document.getElementById('import-file').addEventListener('change', (e) => {
     const file = e.target.files[0];
-    if(file) importData(file);
+      if(file) importData(file);
   });
+  document.getElementById('sign-out-btn').addEventListener('click', signOut);
 }
 
 function exportData(){
@@ -657,6 +746,8 @@ document.getElementById('modal').addEventListener('click', (e) => {
 (async function init(){
   await loadState();
   applyTheme();
+  updateUserChrome();
+  initAuth();
   renderHome();
   updateBadge();
 })();

@@ -2,6 +2,8 @@
 
 ![PrepStack preview](assets/preview.svg)
 
+Repository: [su5867/prepstack-interview](https://github.com/su5867/prepstack-interview)
+
 A mobile-style interview prep tracker for software engineers. Track DSA
 practice by topic and by company, review system design and behavioral
 questions, log mock interviews, keep a study plan, save notes and
@@ -33,8 +35,10 @@ required.
   module.
 - **Reminders** — a notification-style inbox with an unread badge.
 - **Dark mode** — toggle from *My Profile*; persists across sessions.
-- **Responsive** — a mobile phone-frame experience that becomes a
-  wider landing layout on desktop screens.
+- **Responsive** — a focused, mobile-first app layout at every screen
+  size.
+- **Local sign-in** — create an account for this device and return to
+  your saved prep workspace later.
 - **Backup** — Export/Import your data as a JSON file from *My
   Profile*.
 - **Persistence** — progress auto-saves to the browser's
@@ -45,7 +49,7 @@ required.
 ## Project structure
 
 ```
-prepstack-interview-tracker/
+prepstack-interview/
 ├── index.html              # markup only
 ├── css/
 │   └── styles.css          # all styling, incl. dark mode + responsive layout
@@ -75,7 +79,7 @@ Just open `index.html` in a browser, or serve the folder with any
 static server:
 
 ```bash
-cd prepstack-interview-tracker
+cd prepstack-interview
 npm start
 # or: python3 -m http.server 8000
 # then visit http://localhost:8000
@@ -103,15 +107,12 @@ Both run automatically on push/PR via GitHub Actions
 
 ## Deploying to GitHub Pages
 
-1. Create a new GitHub repo and push this folder's contents to it:
+1. Push this folder's contents to the PrepStack repository:
 
    ```bash
-   cd prepstack-interview-tracker
-   git init
+   cd prepstack-interview
    git add .
-   git commit -m "Initial commit — PrepStack interview tracker"
-   git branch -M main
-   git remote add origin https://github.com/<your-username>/<your-repo>.git
+   git commit -m "Update PrepStack"
    git push -u origin main
    ```
 
@@ -119,11 +120,10 @@ Both run automatically on push/PR via GitHub Actions
 3. Under **Build and deployment**, set **Source** to `Deploy from a
    branch`, branch `main`, folder `/ (root)`, then **Save**.
 4. GitHub will publish the site at
-   `https://<your-username>.github.io/<your-repo>/` within a minute
+   `https://su5867.github.io/prepstack-interview/` within a minute
    or two.
 
-Once it's live, update the badge URL and `repository` field in
-`package.json` with your actual username/repo name.
+The repository URL is already configured in `package.json`.
 
 ## Notes on the sample data
 

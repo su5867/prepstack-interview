@@ -1,5 +1,5 @@
 {
-  "name": "prepstack-interview-tracker",
+  "name": "prepstack-interview",
   "version": "1.0.0",
   "description": "A mobile-style interview prep tracker for software engineers — DSA topics, company-wise questions, system design, behavioral prep, mock interviews, and progress tracking.",
   "private": true,
@@ -11,6 +11,10 @@
   "author": "Supriya Dwivedi",
   "repository": {
     "type": "git",
-    "url": "https://github.com/<your-username>/<your-repo>.git"
-  }
+    "url": "git+https://github.com/su5867/prepstack-interview.git"
+  },
+  "bugs": {
+    "url": "https://github.com/su5867/prepstack-interview/issues"
+  },
+  "homepage": "https://github.com/su5867/prepstack-interview#readme"
 }

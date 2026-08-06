@@ -105,6 +105,17 @@ This runs two things:
 Both run automatically on push/PR via GitHub Actions
 (`.github/workflows/ci.yml`).
 
+## Deploying to Vercel
+
+This repository is ready to deploy as a static Vercel project. In the
+[Vercel dashboard](https://vercel.com/new), import
+`su5867/prepstack-interview`, leave the framework preset as **Other**,
+leave the build command and output directory empty, then click **Deploy**.
+
+Vercel will redeploy automatically whenever you push to the connected
+GitHub repository. The included `vercel.json` config adds safe response
+headers and clean URLs; it does not require a build step.
+
 ## Deploying to GitHub Pages
 
 1. Push this folder's contents to the PrepStack repository:
